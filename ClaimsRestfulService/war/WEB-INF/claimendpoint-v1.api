@@ -1,0 +1,210 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://myapp.appspot.com/_ah/api",
+  "name" : "claimendpoint",
+  "version" : "v1",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://myapp.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "gvsu.edu",
+  "ownerName" : "gvsu.edu",
+  "packagePath" : "cis.claimsservice.model",
+  "methods" : {
+    "claimendpoint.insertClaim" : {
+      "path" : "claim",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.insertClaim",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "claimendpoint.getClaim" : {
+      "path" : "claim/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.getClaim",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "claimendpoint.removeClaim" : {
+      "path" : "claim/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.removeClaim",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "claimendpoint.listClaim" : {
+      "path" : "claim",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.listClaim",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "claimendpoint.updateClaim" : {
+      "path" : "claim",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.updateClaim",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Claim" : {
+        "id" : "Claim",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "dateReported" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "location" : {
+            "type" : "string"
+          },
+          "dateUpdated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "CollectionResponse_Claim" : {
+        "id" : "CollectionResponse_Claim",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Claim"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.insertClaim" : {
+        "request" : {
+          "$ref" : "Claim"
+        },
+        "response" : {
+          "$ref" : "Claim"
+        }
+      },
+      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.getClaim" : {
+        "response" : {
+          "$ref" : "Claim"
+        }
+      },
+      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.removeClaim" : {
+      },
+      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.listClaim" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Claim"
+        }
+      },
+      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.updateClaim" : {
+        "request" : {
+          "$ref" : "Claim"
+        },
+        "response" : {
+          "$ref" : "Claim"
+        }
+      }
+    }
+  }
+}
