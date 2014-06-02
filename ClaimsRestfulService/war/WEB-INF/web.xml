@@ -7,7 +7,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>edu.gvsu.cis.claimsservice.model.ClaimEndpoint,edu.gvsu.cis.claimsservice.model.NoteEndpoint,edu.gvsu.cis.claimsservice.model.PolicyEndpoint</param-value>
+   <param-value>edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint,edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint,edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>

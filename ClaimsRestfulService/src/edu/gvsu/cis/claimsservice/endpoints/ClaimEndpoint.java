@@ -1,6 +1,7 @@
-package edu.gvsu.cis.claimsservice.model;
+package edu.gvsu.cis.claimsservice.endpoints;
 
 import edu.gvsu.cis.claimsservice.PMF;
+import edu.gvsu.cis.claimsservice.model.Claim;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -19,8 +20,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-@Api(name = "policyendpoint", namespace = @ApiNamespace(ownerDomain = "gvsu.edu", ownerName = "gvsu.edu", packagePath = "cis.claimsservice.model"))
-public class PolicyEndpoint {
+@Api(name = "claimendpoint", namespace = @ApiNamespace(ownerDomain = "gvsu.edu", ownerName = "gvsu.edu", packagePath = "cis.claimsservice.model"))
+public class ClaimEndpoint {
 
 	/**
 	 * This method lists all the entities inserted in datastore.
@@ -30,18 +31,18 @@ public class PolicyEndpoint {
 	 * persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	@ApiMethod(name = "listPolicy")
-	public CollectionResponse<Policy> listPolicy(
+	@ApiMethod(name = "listClaim")
+	public CollectionResponse<Claim> listClaim(
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
 		PersistenceManager mgr = null;
 		Cursor cursor = null;
-		List<Policy> execute = null;
+		List<Claim> execute = null;
 
 		try {
 			mgr = getPersistenceManager();
-			Query query = mgr.newQuery(Policy.class);
+			Query query = mgr.newQuery(Claim.class);
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				HashMap<String, Object> extensionMap = new HashMap<String, Object>();
@@ -53,20 +54,20 @@ public class PolicyEndpoint {
 				query.setRange(0, limit);
 			}
 
-			execute = (List<Policy>) query.execute();
+			execute = (List<Claim>) query.execute();
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null)
 				cursorString = cursor.toWebSafeString();
 
 			// Tight loop for fetching all entities from datastore and accomodate
 			// for lazy fetch.
-			for (Policy obj : execute)
+			for (Claim obj : execute)
 				;
 		} finally {
 			mgr.close();
 		}
 
-		return CollectionResponse.<Policy> builder().setItems(execute)
+		return CollectionResponse.<Claim> builder().setItems(execute)
 				.setNextPageToken(cursorString).build();
 	}
 
@@ -76,16 +77,16 @@ public class PolicyEndpoint {
 	 * @param id the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
-	@ApiMethod(name = "getPolicy")
-	public Policy getPolicy(@Named("id") Long id) {
+	@ApiMethod(name = "getClaim")
+	public Claim getClaim(@Named("id") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
-		Policy policy = null;
+		Claim claim = null;
 		try {
-			policy = mgr.getObjectById(Policy.class, id);
+			claim = mgr.getObjectById(Claim.class, id);
 		} finally {
 			mgr.close();
 		}
-		return policy;
+		return claim;
 	}
 
 	/**
@@ -93,21 +94,23 @@ public class PolicyEndpoint {
 	 * exists in the datastore, an exception is thrown.
 	 * It uses HTTP POST method.
 	 *
-	 * @param policy the entity to be inserted.
+	 * @param claim the entity to be inserted.
 	 * @return The inserted entity.
 	 */
-	@ApiMethod(name = "insertPolicy")
-	public Policy insertPolicy(Policy policy) {
+	@ApiMethod(name = "insertClaim")
+	public Claim insertClaim(Claim claim) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (policy.getId() != null && containsPolicy(policy)) {
-				throw new EntityExistsException("Object already exists");
+			if (claim.getId() != null) {
+				if (containsClaim(claim)) {
+					throw new EntityExistsException("Object already exists");
+				}
 			}
-			mgr.makePersistent(policy);
+			mgr.makePersistent(claim);
 		} finally {
 			mgr.close();
 		}
-		return policy;
+		return claim;
 	}
 
 	/**
@@ -115,21 +118,21 @@ public class PolicyEndpoint {
 	 * exist in the datastore, an exception is thrown.
 	 * It uses HTTP PUT method.
 	 *
-	 * @param policy the entity to be updated.
+	 * @param claim the entity to be updated.
 	 * @return The updated entity.
 	 */
-	@ApiMethod(name = "updatePolicy")
-	public Policy updatePolicy(Policy policy) {
+	@ApiMethod(name = "updateClaim")
+	public Claim updateClaim(Claim claim) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (!containsPolicy(policy)) {
+			if (!containsClaim(claim)) {
 				throw new EntityNotFoundException("Object does not exist");
 			}
-			mgr.makePersistent(policy);
+			mgr.makePersistent(claim);
 		} finally {
 			mgr.close();
 		}
-		return policy;
+		return claim;
 	}
 
 	/**
@@ -138,22 +141,22 @@ public class PolicyEndpoint {
 	 *
 	 * @param id the primary key of the entity to be deleted.
 	 */
-	@ApiMethod(name = "removePolicy")
-	public void removePolicy(@Named("id") Long id) {
+	@ApiMethod(name = "removeClaim")
+	public void removeClaim(@Named("id") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			Policy policy = mgr.getObjectById(Policy.class, id);
-			mgr.deletePersistent(policy);
+			Claim claim = mgr.getObjectById(Claim.class, id);
+			mgr.deletePersistent(claim);
 		} finally {
 			mgr.close();
 		}
 	}
 
-	private boolean containsPolicy(Policy policy) {
+	private boolean containsClaim(Claim claim) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(Policy.class, policy.getId());
+			mgr.getObjectById(Claim.class, claim.getId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {

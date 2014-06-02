@@ -34,7 +34,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.insertClaim",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.insertClaim",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -50,7 +50,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.getClaim",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.getClaim",
       "request" : {
         "parameters" : {
           "id" : {
@@ -71,7 +71,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.removeClaim",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.removeClaim",
       "request" : {
         "parameters" : {
           "id" : {
@@ -92,7 +92,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.listClaim",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.listClaim",
       "request" : {
         "parameters" : {
           "cursor" : {
@@ -117,7 +117,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.updateClaim",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.updateClaim",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -177,7 +177,7 @@
       }
     },
     "methods" : {
-      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.insertClaim" : {
+      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.insertClaim" : {
         "request" : {
           "$ref" : "Claim"
         },
@@ -185,19 +185,19 @@
           "$ref" : "Claim"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.getClaim" : {
+      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.getClaim" : {
         "response" : {
           "$ref" : "Claim"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.removeClaim" : {
+      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.removeClaim" : {
       },
-      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.listClaim" : {
+      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.listClaim" : {
         "response" : {
           "$ref" : "CollectionResponse_Claim"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.ClaimEndpoint.updateClaim" : {
+      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.updateClaim" : {
         "request" : {
           "$ref" : "Claim"
         },

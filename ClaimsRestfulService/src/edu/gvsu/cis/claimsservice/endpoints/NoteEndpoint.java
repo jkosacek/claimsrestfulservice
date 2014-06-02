@@ -1,6 +1,7 @@
-package edu.gvsu.cis.claimsservice.model;
+package edu.gvsu.cis.claimsservice.endpoints;
 
 import edu.gvsu.cis.claimsservice.PMF;
+import edu.gvsu.cis.claimsservice.model.Note;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -9,6 +10,7 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,8 +21,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-@Api(name = "claimendpoint", namespace = @ApiNamespace(ownerDomain = "gvsu.edu", ownerName = "gvsu.edu", packagePath = "cis.claimsservice.model"))
-public class ClaimEndpoint {
+@Api(name = "noteendpoint", namespace = @ApiNamespace(ownerDomain = "gvsu.edu", ownerName = "gvsu.edu", packagePath = "cis.claimsservice.model"))
+public class NoteEndpoint {
 
 	/**
 	 * This method lists all the entities inserted in datastore.
@@ -30,18 +32,18 @@ public class ClaimEndpoint {
 	 * persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	@ApiMethod(name = "listClaim")
-	public CollectionResponse<Claim> listClaim(
+	@ApiMethod(name = "listNote")
+	public CollectionResponse<Note> listNote(
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
 		PersistenceManager mgr = null;
 		Cursor cursor = null;
-		List<Claim> execute = null;
+		List<Note> execute = null;
 
 		try {
 			mgr = getPersistenceManager();
-			Query query = mgr.newQuery(Claim.class);
+			Query query = mgr.newQuery(Note.class);
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				HashMap<String, Object> extensionMap = new HashMap<String, Object>();
@@ -53,20 +55,20 @@ public class ClaimEndpoint {
 				query.setRange(0, limit);
 			}
 
-			execute = (List<Claim>) query.execute();
+			execute = (List<Note>) query.execute();
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null)
 				cursorString = cursor.toWebSafeString();
 
 			// Tight loop for fetching all entities from datastore and accomodate
 			// for lazy fetch.
-			for (Claim obj : execute)
+			for (Note obj : execute)
 				;
 		} finally {
 			mgr.close();
 		}
 
-		return CollectionResponse.<Claim> builder().setItems(execute)
+		return CollectionResponse.<Note> builder().setItems(execute)
 				.setNextPageToken(cursorString).build();
 	}
 
@@ -76,16 +78,34 @@ public class ClaimEndpoint {
 	 * @param id the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
-	@ApiMethod(name = "getClaim")
-	public Claim getClaim(@Named("id") Long id) {
+	@ApiMethod(name = "getNotesForClaim")
+	public List<Note> getNotesForClaim(@Named("claimId") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
-		Claim claim = null;
+		Note note = null;
 		try {
-			claim = mgr.getObjectById(Claim.class, id);
+			//note = mgr.getObjectById(Note.class, id);
 		} finally {
 			mgr.close();
 		}
-		return claim;
+		return new ArrayList<Note>();
+	}
+	
+	/**
+	 * This method gets the entity having primary key id. It uses HTTP GET method.
+	 *
+	 * @param id the primary key of the java bean.
+	 * @return The entity with primary key id.
+	 */
+	@ApiMethod(name = "getNote")
+	public Note getNote(@Named("id") Long id) {
+		PersistenceManager mgr = getPersistenceManager();
+		Note note = null;
+		try {
+			note = mgr.getObjectById(Note.class, id);
+		} finally {
+			mgr.close();
+		}
+		return note;
 	}
 
 	/**
@@ -93,23 +113,21 @@ public class ClaimEndpoint {
 	 * exists in the datastore, an exception is thrown.
 	 * It uses HTTP POST method.
 	 *
-	 * @param claim the entity to be inserted.
+	 * @param note the entity to be inserted.
 	 * @return The inserted entity.
 	 */
-	@ApiMethod(name = "insertClaim")
-	public Claim insertClaim(Claim claim) {
+	@ApiMethod(name = "insertNote")
+	public Note insertNote(Note note) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (claim.getId() != null) {
-				if (containsClaim(claim)) {
-					throw new EntityExistsException("Object already exists");
-				}
+			if (note.getId() != null && containsNote(note)) {
+				throw new EntityExistsException("Object already exists");
 			}
-			mgr.makePersistent(claim);
+			mgr.makePersistent(note);
 		} finally {
 			mgr.close();
 		}
-		return claim;
+		return note;
 	}
 
 	/**
@@ -117,21 +135,21 @@ public class ClaimEndpoint {
 	 * exist in the datastore, an exception is thrown.
 	 * It uses HTTP PUT method.
 	 *
-	 * @param claim the entity to be updated.
+	 * @param note the entity to be updated.
 	 * @return The updated entity.
 	 */
-	@ApiMethod(name = "updateClaim")
-	public Claim updateClaim(Claim claim) {
+	@ApiMethod(name = "updateNote")
+	public Note updateNote(Note note) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (!containsClaim(claim)) {
+			if (!containsNote(note)) {
 				throw new EntityNotFoundException("Object does not exist");
 			}
-			mgr.makePersistent(claim);
+			mgr.makePersistent(note);
 		} finally {
 			mgr.close();
 		}
-		return claim;
+		return note;
 	}
 
 	/**
@@ -140,22 +158,22 @@ public class ClaimEndpoint {
 	 *
 	 * @param id the primary key of the entity to be deleted.
 	 */
-	@ApiMethod(name = "removeClaim")
-	public void removeClaim(@Named("id") Long id) {
+	@ApiMethod(name = "removeNote")
+	public void removeNote(@Named("id") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			Claim claim = mgr.getObjectById(Claim.class, id);
-			mgr.deletePersistent(claim);
+			Note note = mgr.getObjectById(Note.class, id);
+			mgr.deletePersistent(note);
 		} finally {
 			mgr.close();
 		}
 	}
 
-	private boolean containsClaim(Claim claim) {
+	private boolean containsNote(Note note) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(Claim.class, claim.getId());
+			mgr.getObjectById(Note.class, note.getId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {

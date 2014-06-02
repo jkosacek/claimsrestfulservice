@@ -27,27 +27,6 @@
   "ownerName" : "gvsu.edu",
   "packagePath" : "cis.claimsservice.model",
   "methods" : {
-    "policyendpoint.removePolicy" : {
-      "path" : "policy/{id}",
-      "httpMethod" : "DELETE",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.removePolicy",
-      "request" : {
-        "parameters" : {
-          "id" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "empty"
-      }
-    },
     "policyendpoint.getPolicy" : {
       "path" : "policy/{id}",
       "httpMethod" : "GET",
@@ -55,7 +34,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.getPolicy",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.getPolicy",
       "request" : {
         "parameters" : {
           "id" : {
@@ -76,13 +55,34 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.updatePolicy",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.updatePolicy",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "policyendpoint.removePolicy" : {
+      "path" : "policy/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.removePolicy",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
       }
     },
     "policyendpoint.listPolicy" : {
@@ -92,7 +92,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.listPolicy",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.listPolicy",
       "request" : {
         "parameters" : {
           "cursor" : {
@@ -117,7 +117,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.insertPolicy",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.insertPolicy",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -165,14 +165,12 @@
       }
     },
     "methods" : {
-      "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.removePolicy" : {
-      },
-      "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.getPolicy" : {
+      "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.getPolicy" : {
         "response" : {
           "$ref" : "Policy"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.updatePolicy" : {
+      "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.updatePolicy" : {
         "request" : {
           "$ref" : "Policy"
         },
@@ -180,12 +178,14 @@
           "$ref" : "Policy"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.listPolicy" : {
+      "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.removePolicy" : {
+      },
+      "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.listPolicy" : {
         "response" : {
           "$ref" : "CollectionResponse_Policy"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.PolicyEndpoint.insertPolicy" : {
+      "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.insertPolicy" : {
         "request" : {
           "$ref" : "Policy"
         },

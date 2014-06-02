@@ -27,17 +27,22 @@
   "ownerName" : "gvsu.edu",
   "packagePath" : "cis.claimsservice.model",
   "methods" : {
-    "noteendpoint.insertNote" : {
-      "path" : "note",
-      "httpMethod" : "POST",
+    "noteendpoint.getNote" : {
+      "path" : "note/{id}",
+      "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.NoteEndpoint.insertNote",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.getNote",
       "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -50,7 +55,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.NoteEndpoint.listNote",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.listNote",
       "request" : {
         "parameters" : {
           "cursor" : {
@@ -75,7 +80,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.NoteEndpoint.updateNote",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.updateNote",
       "request" : {
         "body" : "autoTemplate(backendRequest)",
         "bodyName" : "resource"
@@ -84,22 +89,38 @@
         "body" : "autoTemplate(backendResponse)"
       }
     },
-    "noteendpoint.getNote" : {
-      "path" : "note/{id}",
+    "noteendpoint.getNotesForClaim" : {
+      "path" : "notecollection/{claimId}",
       "httpMethod" : "GET",
       "authLevel" : "NONE",
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.NoteEndpoint.getNote",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.getNotesForClaim",
       "request" : {
         "parameters" : {
-          "id" : {
+          "claimId" : {
             "type" : "int64",
             "required" : true
           }
         },
         "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "noteendpoint.insertNote" : {
+      "path" : "note",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.insertNote",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -112,7 +133,7 @@
       "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
       "audiences" : [ ],
       "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.NoteEndpoint.removeNote",
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.removeNote",
       "request" : {
         "parameters" : {
           "id" : {
@@ -124,27 +145,6 @@
       },
       "response" : {
         "body" : "empty"
-      }
-    },
-    "noteendpoint.getNotesForClaim" : {
-      "path" : "notecollection/{claimId}",
-      "httpMethod" : "GET",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.model.NoteEndpoint.getNotesForClaim",
-      "request" : {
-        "parameters" : {
-          "claimId" : {
-            "type" : "int64",
-            "required" : true
-          }
-        },
-        "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
       }
     }
   },
@@ -196,20 +196,17 @@
       }
     },
     "methods" : {
-      "edu.gvsu.cis.claimsservice.model.NoteEndpoint.insertNote" : {
-        "request" : {
-          "$ref" : "Note"
-        },
+      "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.getNote" : {
         "response" : {
           "$ref" : "Note"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.NoteEndpoint.listNote" : {
+      "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.listNote" : {
         "response" : {
           "$ref" : "CollectionResponse_Note"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.NoteEndpoint.updateNote" : {
+      "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.updateNote" : {
         "request" : {
           "$ref" : "Note"
         },
@@ -217,17 +214,20 @@
           "$ref" : "Note"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.NoteEndpoint.getNote" : {
+      "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.getNotesForClaim" : {
+        "response" : {
+          "$ref" : "NoteCollection"
+        }
+      },
+      "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.insertNote" : {
+        "request" : {
+          "$ref" : "Note"
+        },
         "response" : {
           "$ref" : "Note"
         }
       },
-      "edu.gvsu.cis.claimsservice.model.NoteEndpoint.removeNote" : {
-      },
-      "edu.gvsu.cis.claimsservice.model.NoteEndpoint.getNotesForClaim" : {
-        "response" : {
-          "$ref" : "NoteCollection"
-        }
+      "edu.gvsu.cis.claimsservice.endpoints.NoteEndpoint.removeNote" : {
       }
     }
   }

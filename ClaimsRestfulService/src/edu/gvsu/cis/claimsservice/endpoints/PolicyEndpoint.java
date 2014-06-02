@@ -1,6 +1,7 @@
-package edu.gvsu.cis.claimsservice.model;
+package edu.gvsu.cis.claimsservice.endpoints;
 
 import edu.gvsu.cis.claimsservice.PMF;
+import edu.gvsu.cis.claimsservice.model.Policy;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
@@ -9,7 +10,6 @@ import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,8 +20,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-@Api(name = "noteendpoint", namespace = @ApiNamespace(ownerDomain = "gvsu.edu", ownerName = "gvsu.edu", packagePath = "cis.claimsservice.model"))
-public class NoteEndpoint {
+@Api(name = "policyendpoint", namespace = @ApiNamespace(ownerDomain = "gvsu.edu", ownerName = "gvsu.edu", packagePath = "cis.claimsservice.model"))
+public class PolicyEndpoint {
 
 	/**
 	 * This method lists all the entities inserted in datastore.
@@ -31,18 +31,18 @@ public class NoteEndpoint {
 	 * persisted and a cursor to the next page.
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	@ApiMethod(name = "listNote")
-	public CollectionResponse<Note> listNote(
+	@ApiMethod(name = "listPolicy")
+	public CollectionResponse<Policy> listPolicy(
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
 		PersistenceManager mgr = null;
 		Cursor cursor = null;
-		List<Note> execute = null;
+		List<Policy> execute = null;
 
 		try {
 			mgr = getPersistenceManager();
-			Query query = mgr.newQuery(Note.class);
+			Query query = mgr.newQuery(Policy.class);
 			if (cursorString != null && cursorString != "") {
 				cursor = Cursor.fromWebSafeString(cursorString);
 				HashMap<String, Object> extensionMap = new HashMap<String, Object>();
@@ -54,20 +54,20 @@ public class NoteEndpoint {
 				query.setRange(0, limit);
 			}
 
-			execute = (List<Note>) query.execute();
+			execute = (List<Policy>) query.execute();
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null)
 				cursorString = cursor.toWebSafeString();
 
 			// Tight loop for fetching all entities from datastore and accomodate
 			// for lazy fetch.
-			for (Note obj : execute)
+			for (Policy obj : execute)
 				;
 		} finally {
 			mgr.close();
 		}
 
-		return CollectionResponse.<Note> builder().setItems(execute)
+		return CollectionResponse.<Policy> builder().setItems(execute)
 				.setNextPageToken(cursorString).build();
 	}
 
@@ -77,34 +77,16 @@ public class NoteEndpoint {
 	 * @param id the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
-	@ApiMethod(name = "getNotesForClaim")
-	public List<Note> getNotesForClaim(@Named("claimId") Long id) {
+	@ApiMethod(name = "getPolicy")
+	public Policy getPolicy(@Named("id") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
-		Note note = null;
+		Policy policy = null;
 		try {
-			//note = mgr.getObjectById(Note.class, id);
+			policy = mgr.getObjectById(Policy.class, id);
 		} finally {
 			mgr.close();
 		}
-		return new ArrayList<Note>();
-	}
-	
-	/**
-	 * This method gets the entity having primary key id. It uses HTTP GET method.
-	 *
-	 * @param id the primary key of the java bean.
-	 * @return The entity with primary key id.
-	 */
-	@ApiMethod(name = "getNote")
-	public Note getNote(@Named("id") Long id) {
-		PersistenceManager mgr = getPersistenceManager();
-		Note note = null;
-		try {
-			note = mgr.getObjectById(Note.class, id);
-		} finally {
-			mgr.close();
-		}
-		return note;
+		return policy;
 	}
 
 	/**
@@ -112,21 +94,21 @@ public class NoteEndpoint {
 	 * exists in the datastore, an exception is thrown.
 	 * It uses HTTP POST method.
 	 *
-	 * @param note the entity to be inserted.
+	 * @param policy the entity to be inserted.
 	 * @return The inserted entity.
 	 */
-	@ApiMethod(name = "insertNote")
-	public Note insertNote(Note note) {
+	@ApiMethod(name = "insertPolicy")
+	public Policy insertPolicy(Policy policy) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (note.getId() != null && containsNote(note)) {
+			if (policy.getId() != null && containsPolicy(policy)) {
 				throw new EntityExistsException("Object already exists");
 			}
-			mgr.makePersistent(note);
+			mgr.makePersistent(policy);
 		} finally {
 			mgr.close();
 		}
-		return note;
+		return policy;
 	}
 
 	/**
@@ -134,21 +116,21 @@ public class NoteEndpoint {
 	 * exist in the datastore, an exception is thrown.
 	 * It uses HTTP PUT method.
 	 *
-	 * @param note the entity to be updated.
+	 * @param policy the entity to be updated.
 	 * @return The updated entity.
 	 */
-	@ApiMethod(name = "updateNote")
-	public Note updateNote(Note note) {
+	@ApiMethod(name = "updatePolicy")
+	public Policy updatePolicy(Policy policy) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			if (!containsNote(note)) {
+			if (!containsPolicy(policy)) {
 				throw new EntityNotFoundException("Object does not exist");
 			}
-			mgr.makePersistent(note);
+			mgr.makePersistent(policy);
 		} finally {
 			mgr.close();
 		}
-		return note;
+		return policy;
 	}
 
 	/**
@@ -157,22 +139,22 @@ public class NoteEndpoint {
 	 *
 	 * @param id the primary key of the entity to be deleted.
 	 */
-	@ApiMethod(name = "removeNote")
-	public void removeNote(@Named("id") Long id) {
+	@ApiMethod(name = "removePolicy")
+	public void removePolicy(@Named("id") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
 		try {
-			Note note = mgr.getObjectById(Note.class, id);
-			mgr.deletePersistent(note);
+			Policy policy = mgr.getObjectById(Policy.class, id);
+			mgr.deletePersistent(policy);
 		} finally {
 			mgr.close();
 		}
 	}
 
-	private boolean containsNote(Note note) {
+	private boolean containsPolicy(Policy policy) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
 		try {
-			mgr.getObjectById(Note.class, note.getId());
+			mgr.getObjectById(Policy.class, policy.getId());
 		} catch (javax.jdo.JDOObjectNotFoundException ex) {
 			contains = false;
 		} finally {
