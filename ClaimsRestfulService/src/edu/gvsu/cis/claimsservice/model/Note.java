@@ -1,5 +1,7 @@
 package edu.gvsu.cis.claimsservice.model;
 
+import java.util.Date;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -16,6 +18,8 @@ public class Note {
 	private Long claimId;
 	@Persistent
 	private String note;
+	@Persistent
+	private Date createDate;
 
 	public Long getId() {
 		return id;
@@ -41,4 +45,13 @@ public class Note {
 		this.note = note;
 	}
 
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	
 }

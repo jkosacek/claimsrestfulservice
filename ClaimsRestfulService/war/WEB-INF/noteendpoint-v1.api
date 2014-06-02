@@ -164,6 +164,10 @@
           },
           "note" : {
             "type" : "string"
+          },
+          "createDate" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },

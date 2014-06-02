@@ -1,4 +1,11 @@
-<!-- Indices written at Sat, 31 May 2014 09:22:25 EDT -->
+<!-- Indices written at Mon, 2 Jun 2014 19:44:05 EDT -->
 
-<datastore-indexes/>
+<datastore-indexes>
 
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Note" ancestor="false" source="auto">
+        <property name="claimId" direction="asc"/>
+        <property name="createDate" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>

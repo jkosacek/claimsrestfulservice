@@ -1,10 +1,12 @@
 package edu.gvsu.cis.claimsservice.endpoints;
 
+import static com.google.api.server.spi.config.ApiMethod.HttpMethod.GET;
 import edu.gvsu.cis.claimsservice.PMF;
 import edu.gvsu.cis.claimsservice.model.Note;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
+import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.response.CollectionResponse;
 import com.google.appengine.api.datastore.Cursor;
@@ -78,16 +80,21 @@ public class NoteEndpoint {
 	 * @param id the primary key of the java bean.
 	 * @return The entity with primary key id.
 	 */
+	@SuppressWarnings("unchecked")
 	@ApiMethod(name = "getNotesForClaim")
 	public List<Note> getNotesForClaim(@Named("claimId") Long id) {
 		PersistenceManager mgr = getPersistenceManager();
-		Note note = null;
+		Query q = mgr.newQuery(Note.class);
+		q.setFilter("claimId == claimIdParam");
+		q.setOrdering("createDate desc");
+		q.declareParameters("String claimIdParam");
+		List<Note> notes = new ArrayList<Note>();
 		try {
-			//note = mgr.getObjectById(Note.class, id);
+			notes = (List<Note>) q.execute(id);
 		} finally {
 			mgr.close();
 		}
-		return new ArrayList<Note>();
+		return notes;
 	}
 	
 	/**

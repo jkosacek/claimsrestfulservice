@@ -85,6 +85,22 @@
         "body" : "empty"
       }
     },
+    "policyendpoint.insertPolicy" : {
+      "path" : "policy",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.insertPolicy",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
     "policyendpoint.listPolicy" : {
       "path" : "policy",
       "httpMethod" : "GET",
@@ -105,22 +121,6 @@
           }
         },
         "body" : "empty"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
-    "policyendpoint.insertPolicy" : {
-      "path" : "policy",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.insertPolicy",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -180,17 +180,17 @@
       },
       "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.removePolicy" : {
       },
-      "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.listPolicy" : {
-        "response" : {
-          "$ref" : "CollectionResponse_Policy"
-        }
-      },
       "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.insertPolicy" : {
         "request" : {
           "$ref" : "Policy"
         },
         "response" : {
           "$ref" : "Policy"
+        }
+      },
+      "edu.gvsu.cis.claimsservice.endpoints.PolicyEndpoint.listPolicy" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Policy"
         }
       }
     }

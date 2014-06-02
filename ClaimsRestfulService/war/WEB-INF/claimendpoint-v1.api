@@ -27,22 +27,6 @@
   "ownerName" : "gvsu.edu",
   "packagePath" : "cis.claimsservice.model",
   "methods" : {
-    "claimendpoint.insertClaim" : {
-      "path" : "claim",
-      "httpMethod" : "POST",
-      "authLevel" : "NONE",
-      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
-      "audiences" : [ ],
-      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
-      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.insertClaim",
-      "request" : {
-        "body" : "autoTemplate(backendRequest)",
-        "bodyName" : "resource"
-      },
-      "response" : {
-        "body" : "autoTemplate(backendResponse)"
-      }
-    },
     "claimendpoint.getClaim" : {
       "path" : "claim/{id}",
       "httpMethod" : "GET",
@@ -59,6 +43,22 @@
           }
         },
         "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "claimendpoint.insertClaim" : {
+      "path" : "claim",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.insertClaim",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
       },
       "response" : {
         "body" : "autoTemplate(backendResponse)"
@@ -177,15 +177,15 @@
       }
     },
     "methods" : {
-      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.insertClaim" : {
-        "request" : {
-          "$ref" : "Claim"
-        },
+      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.getClaim" : {
         "response" : {
           "$ref" : "Claim"
         }
       },
-      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.getClaim" : {
+      "edu.gvsu.cis.claimsservice.endpoints.ClaimEndpoint.insertClaim" : {
+        "request" : {
+          "$ref" : "Claim"
+        },
         "response" : {
           "$ref" : "Claim"
         }
